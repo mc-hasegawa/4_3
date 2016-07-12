@@ -26,17 +26,22 @@ $input_array = array("","","","","","","","","",0,0,0,0,0,0);
 $input_count = 0;
 $first_flag = true;
 $error_flag = false;
-if (isset($_POST["input_public_group_code"],$_POST["input_zip_code_old"],$_POST["input_zip_code"],$_POST["input_prefecture_kana"],$_POST["input_city_kana"],$_POST["input_town_kana"],$_POST["input_prefecture"],$_POST["input_city"],$_POST["input_town"],$_POST["input_town_double_zip_code"],$_POST["input_town_multi_address"],$_POST["input_town_attach_district"],$_POST["input_zip_code_multi_town"],$_POST["input_update_check"],$_POST["input_update_reason"])) {
+if (isset($_POST["input_public_group_code"],$_POST["input_zip_code_old"],$_POST["input_zip_code"],$_POST["input_prefecture_kana"],$_POST["input_city_kana"],$_POST["input_town_kana"],$_POST["input_prefecture"],$_POST["input_city"],$_POST["input_town"],$_POST["input_town_double_zip_code"],$_POST["input_town_multi_address"],$_POST["input_town_attach_district"],$_POST["input_zip_code_multi_town"],$_POST["input_update_check"],$_POST["input_update_reason"]))
+{
 	// "初回ではない"
 	$first_flag = false;
 	// var_dump($_POST);
-	foreach ($_POST as $value) {
-		if (isset($value)) {
+	foreach ($_POST as $value)
+	{
+		if (isset($value))
+		{
 			$input_array[$input_count] = $value;
 		}
 		$input_count++;
 	}
-}else{
+}
+else
+{
 	// "初回"
 }
 ?>
@@ -50,29 +55,41 @@ if (isset($_POST["input_public_group_code"],$_POST["input_zip_code_old"],$_POST[
 <table border=1>
 	<?php
 	printf("<tr></tr>");
-	while ($count_th < $column_count) {
+	while ($count_th < $column_count)
+	{
 		$show_table_data = mysql_fetch_assoc($table_data);
 		$show_table_data_array[$count_th] = print_r($show_table_data["Comment"],true);
 		printf("<th>%s</th>", $show_table_data_array[$count_th]);
 		$count_th++;
 	}
 	$count_th = 0;
-	while($search_result_row = mysql_fetch_assoc($search_result)) {
+	while($search_result_row = mysql_fetch_assoc($search_result))
+	{
 		printf("<tr></tr>");
-		while ($count_th < $column_count) {
+		while ($count_th < $column_count)
+		{
 			$column_name = mysql_field_name($search_result, $count_th);
-			if ($first_flag) {
+			if ($first_flag)
+			{
 				$input_array[$count_th] = $search_result_row[print_r($column_name,true)];
 			}
-			if (9 <= $count_th) {
-				if ($count_th <= 12) {
-					if ($input_array[$count_th] == 0) {
+			if (9 <= $count_th)
+			{
+				if ($count_th <= 12)
+				{
+					if ($input_array[$count_th] == 0)
+					{
 						printf("<th>該当せず</th>");
-					}else{
+					}
+					else
+					{
 						printf("<th>該当</th>");
 					}
-				}else if ($count_th == 13) {
-					switch ($input_array[$count_th]) {
+				}
+				else if ($count_th == 13)
+				{
+					switch ($input_array[$count_th])
+					{
 						case 0:
 							printf("<th>変更なし</th>");
 							break;
@@ -83,8 +100,11 @@ if (isset($_POST["input_public_group_code"],$_POST["input_zip_code_old"],$_POST[
 							printf("<th>廃止(廃止データのみ使用)</th>");
 							break;
 					}
-				}else{
-					switch ($input_array[$count_th]) {
+				}
+				else
+				{
+					switch ($input_array[$count_th])
+					{
 						case 0:
 							printf("<th>変更なし</th>");
 							break;
@@ -108,7 +128,9 @@ if (isset($_POST["input_public_group_code"],$_POST["input_zip_code_old"],$_POST[
 							break;
 					}
 				}
-			}else{
+			}
+			else
+			{
 				printf("<th>%s</th>", $input_array[$count_th]);
 			}
 			$count_th++;
@@ -120,102 +142,155 @@ if (isset($_POST["input_public_group_code"],$_POST["input_zip_code_old"],$_POST[
 <p>上書き設定入力</p>
 <form name="form_post" action="" method="post">
 	<p>
-	<?php if (!$first_flag) {
-		if ($input_array[0] == "") {
+	<?php
+	if (!$first_flag)
+	{
+		if ($input_array[0] == "")
+		{
 			echo "<font color='#ff0000'>全国地方公共団体コードが未入力です</font><br>";
-		}elseif (!preg_match('/[0-9]/', $input_array[0])) {
+		}
+		elseif (!preg_match('/[0-9]/', $input_array[0]))
+		{
 			$error_flag = true;
 			echo "<font color='#ff0000'>半角数字以外の内容が入力されています</font><br>";
 		}
-		} ?>
+	}
+	?>
 	<label>1.全国地方公共団体コード<br><?php echo $input_array[0]; ?><input type="hidden" name="input_public_group_code" value="<?php echo $input_array[0]; ?>"></label>
 	</p>
 	<p>
-	<?php if (!$first_flag) {
-		if ($input_array[1] == "") {
+	<?php
+	if (!$first_flag)
+	{
+		if ($input_array[1] == "")
+		{
 			echo "<font color='#ff0000'>旧郵便番号が未入力です</font><br>";
-		}elseif (!preg_match('/[0-9]/', $input_array[1])) {
+		}
+		elseif (!preg_match('/[0-9]/', $input_array[1]))
+		{
 			$error_flag = true;
 			echo "<font color='#ff0000'>半角数字以外の内容が入力されています</font><br>";
 		}
-	} ?>
+	}
+	?>
 	<label>2.旧郵便番号<br><?php echo $input_array[1]; ?><input type="hidden" name="input_zip_code_old" value="<?php echo $input_array[1]; ?>"></label>
 	</p>
 	<p>
-	<?php if (!$first_flag) {
-		if ($input_array[2] == "") {
+	<?php
+	if (!$first_flag)
+	{
+		if ($input_array[2] == "")
+		{
 			echo "<font color='#ff0000'>郵便番号が未入力です</font><br>";
-		}elseif (!preg_match('/[0-9]/', $input_array[2])) {
+		}
+		elseif (!preg_match('/[0-9]/', $input_array[2]))
+		{
 			$error_flag = true;
 			echo "<font color='#ff0000'>半角数字以外の内容が入力されています</font><br>";
 		}
-	} ?>
+	}
+	?>
 	<label>3.郵便番号<br><?php echo $input_array[2]; ?><input type="hidden" name="input_zip_code" value="<?php echo $input_array[2]; ?>"></label>
 	</p>
 	<p>
-	<?php if (!$first_flag) {
-		if ($input_array[3] == "") {
+	<?php
+	if (!$first_flag)
+	{
+		if ($input_array[3] == "")
+		{
 			echo "<font color='#ff0000'>都道府県名が未入力です</font><br>";
-		}elseif (!preg_match('/^[ｦ-ﾟｰ ()]+$/u', $input_array[3])) {
+		}
+		elseif (!preg_match('/^[ｦ-ﾟｰ ()]+$/u', $input_array[3]))
+		{
 			$error_flag = true;
 			echo "<font color='#ff0000'>半角カナ以外の内容が入力されています</font><br>";
 		}
-	} ?>
+	}
+	?>
 	<label>4.都道府県名(半角カタカナ)<br><input type="text" name="input_prefecture_kana" value="<?php echo $input_array[3]; ?>"></label>
 	</p>
 	<p>
-	<?php if (!$first_flag) {
-		if ($input_array[4] == "") {
+	<?php if (!$first_flag)
+	{
+		if ($input_array[4] == "")
+		{
 			echo "<font color='#ff0000'>市区町村名が未入力です</font><br>";
-		}elseif (!preg_match('/^[ｦ-ﾟｰ ()]+$/u', $input_array[4])) {
+		}
+		elseif (!preg_match('/^[ｦ-ﾟｰ ()]+$/u', $input_array[4]))
+		{
 			$error_flag = true;
 			echo "<font color='#ff0000'>半角カナ以外の内容が入力されています</font><br>";
 		}
-	} ?>
+	}
+	?>
 	<label>5.市区町村名(半角カタカナ)<br><input type="text" name="input_city_kana" value="<?php echo $input_array[4]; ?>"></label>
 	</p>
 	<p>
-	<?php if (!$first_flag) {
-		if ($input_array[5] == "") {
+	<?php
+	if (!$first_flag)
+	{
+		if ($input_array[5] == "")
+		{
 			echo "<font color='#ff0000'>町域名が未入力です</font><br>";
-		}elseif (!preg_match('/^[ｦ-ﾟｰ ()]+$/u', $input_array[5])) {
+		}
+		elseif (!preg_match('/^[ｦ-ﾟｰ ()]+$/u', $input_array[5]))
+		{
 			$error_flag = true;
 			echo "<font color='#ff0000'>半角カナ以外の内容が入力されています</font><br>";
 		}
-	} ?>
+	}
+	?>
 	<label>6.町域名(半角カタカナ)<br><input type="text" name="input_town_kana" value="<?php echo $input_array[5]; ?>"></label>
 	</p>
 	<p>
-	<?php if (!$first_flag) {
-		if ($input_array[6] == "") {
+	<?php
+	if (!$first_flag)
+	{
+		if ($input_array[6] == "")
+		{
 			echo "<font color='#ff0000'>都道府県名が未入力です</font><br>";
-		}elseif (!preg_match('/^[一-龠]+$/u', $input_array[6])) {
+		}
+		elseif (!preg_match('/^[一-龠]+$/u', $input_array[6]))
+		{
 			$error_flag = true;
 			echo "<font color='#ff0000'>漢字以外の内容が入力されています</font><br>";
 		}
-	} ?>
+	}
+	?>
 	<label>7.都道府県名(漢字)<br><input type="text" name="input_prefecture" value="<?php echo $input_array[6]; ?>"></label>
 	</p>
 	<p>
-	<?php if (!$first_flag) {
-		if ($input_array[7] == "") {
+	<?php
+	if (!$first_flag)
+	{
+		if ($input_array[7] == "")
+		{
 			echo "<font color='#ff0000'>市区町村名が未入力です</font><br>";
-		}elseif (!preg_match('/^[^ -~｡-ﾟ\x00-\x1f\t]+$/u', $input_array[7])) {
+		}
+		elseif (!preg_match('/^[^ -~｡-ﾟ\x00-\x1f\t]+$/u', $input_array[7]))
+		{
 			$error_flag = true;
 			echo "<font color='#ff0000'>全角文字以外の内容が入力されています</font><br>";
 		}
-	} ?>
+	}
+	?>
 	<label>8.市区町村名<br><input type="text" name="input_city" value="<?php echo $input_array[7]; ?>"></label>
 	</p>
 	<p>
-	<?php if (!$first_flag) {
-		if ($input_array[8] == "") {
+	<?php
+	if (!$first_flag)
+	{
+		if ($input_array[8] == "")
+		{
 			echo "<font color='#ff0000'>町域名が未入力です</font><br>";
-		}elseif (!preg_match('/^[^ -~｡-ﾟ\x00-\x1f\t]+$/u', $input_array[8])) {
+		}
+		elseif (!preg_match('/^[^ -~｡-ﾟ\x00-\x1f\t]+$/u', $input_array[8]))
+		{
 			$error_flag = true;
 			echo "<font color='#ff0000'>全角文字以外の内容が入力されています</font><br>";
 		}
-	} ?>
+	}
+	?>
 	<label>9.町域名<br><input type="text" name="input_town" value="<?php echo $input_array[8]; ?>"></label>
 	</p>
 	<p>
@@ -268,8 +343,10 @@ if (isset($_POST["input_public_group_code"],$_POST["input_zip_code_old"],$_POST[
 </body>
 </html>
 <?php
-if (!$first_flag) {
-	if($_POST["input_public_group_code"] !== ''&&$_POST["input_zip_code_old"] !== ''&&$_POST["input_zip_code"] !== ''&&$_POST["input_prefecture_kana"] !== ''&&$_POST["input_city_kana"] !== ''&&$_POST["input_town_kana"] !== ''&&$_POST["input_prefecture"] !== ''&&$_POST["input_city"] !== ''&&$_POST["input_town"] !== ''&&$_POST["input_town_double_zip_code"] !== ''&&$_POST["input_town_multi_address"] !== ''&&$_POST["input_town_attach_district"] !== ''&&$_POST["input_zip_code_multi_town"] !== ''&&$_POST["input_update_check"] !== ''&&$_POST["input_update_reason"] !== ''&&$error_flag == false) {
+if (!$first_flag)
+{
+	if($_POST["input_public_group_code"] !== ''&&$_POST["input_zip_code_old"] !== ''&&$_POST["input_zip_code"] !== ''&&$_POST["input_prefecture_kana"] !== ''&&$_POST["input_city_kana"] !== ''&&$_POST["input_town_kana"] !== ''&&$_POST["input_prefecture"] !== ''&&$_POST["input_city"] !== ''&&$_POST["input_town"] !== ''&&$_POST["input_town_double_zip_code"] !== ''&&$_POST["input_town_multi_address"] !== ''&&$_POST["input_town_attach_district"] !== ''&&$_POST["input_zip_code_multi_town"] !== ''&&$_POST["input_update_check"] !== ''&&$_POST["input_update_reason"] !== ''&&$error_flag == false)
+	{
 		$_SESSION["input_param"] = $input_array;
 		header("Location:checkpage.php");
 	}

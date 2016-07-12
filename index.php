@@ -27,28 +27,41 @@ $count_th = 0;
 	<table border=1>
 		<?php
 		printf("<tr></tr>");
-		while ($count_th < $column_count) {
+		while ($count_th < $column_count)
+		{
 			$show_table_data = mysql_fetch_assoc($table_data);
 			printf("<th>%s</th>", print_r($show_table_data["Comment"],true));
 			$count_th++;
 		}
 		$count_th = 0;
-		while($row = mysql_fetch_assoc($res)) {
+		while($row = mysql_fetch_assoc($res))
+		{
 			printf("<tr></tr>");
-			while ($count_th < $column_count) {
+			while ($count_th < $column_count)
+			{
 				$column_name = mysql_field_name($res, $count_th);	//カラム名取得
 				$count_th++;
-				if($count_th == 3){
+				if($count_th == 3)
+				{
 					printf("<th><a href='%s?postal_code=%s'>%s</a></th>","overwrite.php",$row[print_r($column_name,true)],$row[print_r($column_name,true)]);
-				}elseif (10 <= $count_th) {
-					if ($count_th == 13) {
-						if ($row[print_r($column_name,true)] == 0) {
+				}
+				elseif (10 <= $count_th)
+				{
+					if ($count_th == 13)
+					{
+						if ($row[print_r($column_name,true)] == 0)
+						{
 							printf("<th>該当せず</th>");
-						}else{
+						}
+						else
+						{
 							printf("<th>該当</th>");
 						}
-					}else if ($count_th == 14) {
-						switch ($row[print_r($column_name,true)]) {
+					}
+					else if ($count_th == 14)
+					{
+						switch ($row[print_r($column_name,true)])
+						{
 							case 0:
 								printf("<th>変更なし</th>");
 								break;
@@ -59,8 +72,11 @@ $count_th = 0;
 								printf("<th>廃止(廃止データのみ使用)</th>");
 								break;
 						}
-					}else{
-						switch ($row[print_r($column_name,true)]) {
+					}
+					else
+					{
+						switch ($row[print_r($column_name,true)])
+						{
 							case 0:
 								printf("<th>変更なし</th>");
 								break;
@@ -84,7 +100,9 @@ $count_th = 0;
 								break;
 						}
 					}
-				}else{
+				}
+				else
+				{
 					printf("<th>%s</th>", $row[print_r($column_name,true)]);
 				}
 			}

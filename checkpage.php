@@ -11,14 +11,17 @@ mysql_query('SET NAMES utf8', $link);
 session_start();
 $input_param_array = $_SESSION["input_param"];
 var_dump($input_param_array);
-if ($_POST) {
-	foreach ($input_param_array as $value) {
+if ($_POST)
+{
+	foreach ($input_param_array as $value)
+	{
 		${"input".$post_count} = $value;
 		$post_count++;
 	}
 	$sql = "REPLACE INTO `kadai_hasegawa_ziplist`(`public_group_code`, `zip_code_old`, `zip_code`, `prefecture_kana`, `city_kana`, `town_kana`, `prefecture`, `city`, `town`, `town_double_zip_code`, `town_multi_address`, `town_attach_district`, `zip_code_multi_town`, `update_check`, `update_reason`) VALUES ('$input0','$input1','$input2','$input3','$input4','$input5','$input6','$input7','$input8','$input9','$input10','$input11','$input12','$input13','$input14')";
 	$result_flag = mysql_query($sql);
-	if (!$result_flag) {
+	if (!$result_flag)
+	{
 	    die('REPLACEクエリーが失敗しました。'.mysql_error());
 	}
 	$post_count = 0;
@@ -45,36 +48,57 @@ if ($_POST) {
 <p>8.市区町村名<br><?php echo htmlspecialchars($input_param_array[7]); ?></p>
 <p>9.町域名<br><?php echo htmlspecialchars($input_param_array[8]); ?></p>
 <p>10.一町域で複数の郵便番号か<br>
-<?php if(htmlspecialchars($input_param_array[9]) == 0) {
+<?php
+if(htmlspecialchars($input_param_array[9]) == 0)
+{
 	echo "該当せず";
-}else{
+}
+else
+{
 	echo "該当";
-} ?>
+}
+?>
 </p>
 <p>11.小字毎に番地が起番されている町域か<br>
-<?php if(htmlspecialchars($input_param_array[10]) == 0) {
+<?php
+if(htmlspecialchars($input_param_array[10]) == 0)
+{
 	echo "該当せず";
-}else{
+}
+else
+{
 	echo "該当";
-} ?>
+}
+?>
 </p>
 <p>12.丁目を有する町域名か<br>
-<?php if(htmlspecialchars($input_param_array[11]) == 0) {
+<?php
+if(htmlspecialchars($input_param_array[11]) == 0)
+{
 	echo "該当せず";
-}else{
+}
+else
+{
 	echo "該当";
-} ?>
+}
+?>
 </p>
 <p>13.一郵便番号で複数の町域か<br>
-<?php if(htmlspecialchars($input_param_array[12]) == 0) {
+<?php
+if(htmlspecialchars($input_param_array[12]) == 0)
+{
 	echo "該当せず";
-}else{
+}
+else
+{
 	echo "該当";
-} ?>
+}
+?>
 </p>
 <p>14.更新確認<br>
 <?php
-switch (htmlspecialchars($input_param_array[13])) {
+switch (htmlspecialchars($input_param_array[13]))
+{
 	case 0:
 		printf("<th>変更なし</th>");
 		break;
@@ -89,7 +113,8 @@ switch (htmlspecialchars($input_param_array[13])) {
 </p>
 <p>15.更新理由<br>
 <?php 
-switch (htmlspecialchars($input_param_array[14])) {
+switch (htmlspecialchars($input_param_array[14]))
+{
 	case 0:
 		printf("<th>変更なし</th>");
 		break;
@@ -116,7 +141,8 @@ switch (htmlspecialchars($input_param_array[14])) {
 </p>
 <form name="form_post" method="post">
 	<?php
-	foreach ($input_param_array as $value) {
+	foreach ($input_param_array as $value)
+	{
 		printf("<input type='hidden' name='redirect_param_array[%d]' value='%s'>",$post_count,$value);
 		$post_count++;
 	}
